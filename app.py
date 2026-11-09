@@ -41,14 +41,14 @@ with col2:
 
 def normalizar_expresion(expr):
     e = expr.upper()
-    e = re.sub(r"\\bAND\\b", " and ", e)
-    e = re.sub(r"\\bOR\\b", " or ", e)
-    e = re.sub(r"\\bNOT\\b", " not ", e)
-    e = re.sub(r"\\bXOR\\b", " != ", e)
+    e = re.sub(r"\bAND\b", " and ", e)
+    e = re.sub(r"\bOR\b", " or ", e)
+    e = re.sub(r"\bNOT\b", " not ", e)
+    e = re.sub(r"\bXOR\b", " != ", e)
     return e.strip()
 
 def extraer_variables(expr):
-    return sorted(set(re.findall(r"\\b[A-F]\\b", expr)))
+    return sorted(set(re.findall(r"\b[A-F]\b", expr)))
 
 def generar_tabla(expr):
     expr_normal = normalizar_expresion(expr)
@@ -60,7 +60,7 @@ def generar_tabla(expr):
         entorno = dict(zip(vars_, valores))
         expresion = expr_normal
         for var, valor in entorno.items():
-            expresion = re.sub(rf"\\b{var}\\b", str(bool(valor)), expresion)
+            expresion = re.sub(rf"\b{var}\b", str(bool(valor)), expresion)
         try:
             resultado = eval(expresion, {"__builtins__": {}}, {})
         except Exception:
